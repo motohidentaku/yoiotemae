@@ -1,4 +1,4 @@
-# yoiotemae
+# yoiotemae <img alt="Run test" src="https://github.com/motohidentaku/yoiotemae/workflows/CI/badge.svg"></a>
 よいお点前
 「・・・　IoT ・・・」の略称（略称は検討中）
 
