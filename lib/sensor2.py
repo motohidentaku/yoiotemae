@@ -1,6 +1,8 @@
-class Sensor2:
+from lib.sensor import Sensor
+
+class Sensor2(Sensor):
   def __init__(self, bus_number):
-    self.bus_number = bus_number[0]
+    self.argnum = 2
     self.ch = bus_number[1]
 
 

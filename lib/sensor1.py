@@ -1,7 +1,5 @@
-class Sensor1:
-  def __init__(self, bus_number):
-    self.bus_number = bus_number
+from lib.sensor import Sensor
 
-
+class Sensor1(Sensor):
   def get(self):
-    return {1, 2, 3}
+    return {1,2,3}
