@@ -1,0 +1,16 @@
+name: CI
+on: [push]
+jobs:
+  build:
+    name: setup
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@master
+      - name: Set up Python 3.7
+        uses: actions/setup-python@v1
+        with:
+          version: '3.7'
+          architecture: 'x64'
+      - name: Test
+        run: |
+          python3 -m unittest discover tests
