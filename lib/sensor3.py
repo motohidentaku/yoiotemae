@@ -3,4 +3,4 @@ class Sensor3:
     self.io = io
 
   def get(self):
-    return 1
+    return {1}

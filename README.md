@@ -26,19 +26,3 @@ RasberryPiのセンサから取得できる情報をサーバに送信したい
 設定ファイルに基づいいてサーバに送信するjsonを生成する
 
 ## 改善希望点
-センサー種類が増えていっても（lib配下にモジュールが増えても）main.pyを編集しなくてもよいようにしたい。
-現状では、センサーの種類が増えるたびに、次のようなif分を追加する必要がある。
-
-```python
-    if cfg.has_section('sensor1'):
-        try:
-            module = importlib.import_module('lib.sensor1')
-            sensor1 = module.Sensor1(cfg.getint("sensor1", "bus_number"))
-            ret = sensor1.get()
-
-            data[cfg['sensor1']['name1']] = ret[0]
-            data[cfg['sensor1']['name2']] = ret[1]
-            data[cfg['sensor1']['name3']] = ret[2]
-        except Exception as e:
-            print(e)
-```

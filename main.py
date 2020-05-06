@@ -4,38 +4,17 @@
 import sys
 import configparser
 import importlib
+import re
 
 def get(cfg):
     data = dict()
-    if cfg.has_section('sensor1'):
+    for sec in filter(lambda x: re.match(r'sensor', x), cfg):
         try:
-            module = importlib.import_module('lib.sensor1')
-            sensor1 = module.Sensor1(cfg.getint("sensor1", "bus_number"))
-            ret = sensor1.get()
-
-            data[cfg['sensor1']['name1']] = ret[0]
-            data[cfg['sensor1']['name2']] = ret[1]
-            data[cfg['sensor1']['name3']] = ret[2]
-        except Exception as e:
-            print(e)
-
-    if cfg.has_section('sensor2'):
-        try:
-            module = importlib.import_module('lib.sensor2')
-            sensor2 = module.Sensor2(cfg.getint("sensor2", "bus_number"), cfg.getint("sensor2", "ch"))
-            ret = sensor2.get()
-
-            data[cfg['sensor2']['name']] = ret
-        except Exception as e:
-            print(e)
-
-    if cfg.has_section('sensor3'):
-        try:
-            module = importlib.import_module('lib.sensor3')
-            sensor3 = module.Sensor3(cfg.getint("sensor3", "io"))
-            ret = sensor3.get()
-
-            data[cfg['sensor3']['name']] = ret
+            module = importlib.import_module(cfg[sec]['filepath'])
+            in_para = [cfg[sec][x] for x in cfg[sec] if re.match(r'in_', x)]
+            instance  = getattr(module, cfg[sec]['classname'])(in_para)
+            for name, v in zip([x for x in cfg[sec] if re.match(r'name', x)] ,instance.get()):
+                data[cfg[sec][name]] = v
         except Exception as e:
             print(e)
 
