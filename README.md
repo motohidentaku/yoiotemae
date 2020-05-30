@@ -4,6 +4,23 @@
 
 複数のセンサーを接続したRasberryPiを対象としたIoT-PFのテンプレート
 
+## Requirements
+
+* Raspberry Pi Zero W
+* Python 3.7
+* [Poetry](https://python-poetry.org/) 
+
+## Install
+Poetry
+```
+$ curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python3
+$ source $HOME/.poetry/env
+```
+下記のバージョン確認で`・・・py2.7/subprocess32.py:149: RuntimeWarning: The _posixsubprocess・・・`というエラーが出たら、`~/.poetry/bin/poetry`の１行目を`#!/usr/bin/env python3`に変更
+```
+$ poetry --version
+```
+
 ## 想定環境
 複数のRasberryPiがあり、それぞれのRasberryPiには複数のセンサ（温度、湿度、照度　等）がついている。
 ただし、個々のRasberryPiに接続されているセンサーは異なることがある。
