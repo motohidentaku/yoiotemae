@@ -3,54 +3,41 @@
 
 from argparse import ArgumentParser
 import os
+import errno
 from importlib import import_module
-import configparser
+from configparser import ConfigParser
 import re
-
-def make_json(measurment, tags, data):
-    """
-    make json
-
-    Parameters
-    ----------
-    measurmant : string
-        influx measurment
-    tasg : string
-        influx tags
-    data : array
-        influx : fields
-
-    Returns
-    -------
-    json_body : string
-        json string
-
-    """
-    json_body = [
-            {
-                "measurement": measurment,
-                "tags": tags,
-                "fields": data
-                }
-            ]
-
-    return json_body
-
+from influxdb import InfluxDBClient
+from .common import (
+    make_json)
 
 def main():
     parser = ArgumentParser()
     parser.add_argument(
         '--config',
-        help='APIトークンを指定します。省略した場合はTOKEN環境変数の値が利用されます。',
+        help='config filepath. default is ./yoiotemae/config/para.config',
         default='./yoiotemae/config/para.config')
+    parser.add_argument(
+        '--influx',
+        help='influx url.指定しない場合はinfluxに送信しない')
+    parser.add_argument(
+       '--port',
+        help='influx port. default is 8086',
+        default=8086)
+    parser.add_argument(
+       '--dbmeasur',
+        help='influx database:measurement default is sensor:Environment',
+        default='sensor:Environment')
     excludes = set(['common.py'])
     topdir = os.path.dirname(__file__)
     ns_root = os.path.dirname(topdir)
 
     args = parser.parse_args()
 
-    cfg = configparser.ConfigParser()
-    #cfg.read("./yoiotemae/config/para.config")
+    #read config file
+    if not os.path.exists(args.config):
+        raise FileNotFoundError(errno.ENOENT, os.strerror(errno.ENOENT), args.config)
+    cfg = ConfigParser()
     cfg.read(args.config)
 
     
@@ -71,6 +58,9 @@ def main():
                 if hasattr(instance, 'get'):
                     for name, v in zip([x for x in cfg[n] if re.match(r'name', x)] ,instance.get()):
                         data[cfg[n][name]] = v
-
-    print(make_json(cfg["server"]["measurement"], {"node": cfg["edge"]["nodename"], "location": cfg["edge"]["location"]}, data))
-
+    if args.influx:
+        client = InfluxDBClient(host=args.influx, port=args.port, database=args.dbmeasur.split(':')[0])
+        print(client.write_points(make_json(args.dbmeasur.split(':')[1],
+            {"node": cfg["edge"]["nodename"], "location": cfg["edge"]["location"]}, data)))
+    else:
+        print(data)

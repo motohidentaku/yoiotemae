@@ -8,6 +8,7 @@ authors = ["motohidentaku <m@motohidentaku>"]
 python = "^3.7"
 configparser = "^5.0.0"
 selenium = "^3.141.0"
+influxdb = "^5.3.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
