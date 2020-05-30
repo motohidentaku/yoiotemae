@@ -21,6 +21,21 @@ $ source $HOME/.poetry/env
 $ poetry --version
 ```
 
+Yoiotemae
+```
+$ poetry install
+```
+
+## Run
+```
+$ poetry shell
+$ yoiotemae
+```
+or
+```
+$ poetry run yoiotemae
+```
+
 ## 想定環境
 複数のRasberryPiがあり、それぞれのRasberryPiには複数のセンサ（温度、湿度、照度　等）がついている。
 ただし、個々のRasberryPiに接続されているセンサーは異なることがある。
