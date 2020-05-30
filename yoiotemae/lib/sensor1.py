@@ -1,4 +1,4 @@
-from lib.sensor import Sensor
+from .sensor import Sensor
 
 class Sensor1(Sensor):
   def get(self):

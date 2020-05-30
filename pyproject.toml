@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "yoiotemae"
+version = "0.1.0"
+description = ""
+authors = ["motohidentaku <m@motohidentaku>"]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+configparser = "^5.0.0"
+selenium = "^3.141.0"
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.2"
+
+
+[tool.poetry.scripts]
+yoiotemae = 'yoiotemae.main:main'
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
