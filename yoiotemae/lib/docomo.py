@@ -67,5 +67,5 @@ class Docomo(Sensor):
     #    sys.exit(1)
 
     total, mount = self.getLog(self.docomo_id, self.docomo_pw)
-    return {total}
+    return [total]
 
