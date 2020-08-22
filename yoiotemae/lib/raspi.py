@@ -3,6 +3,7 @@ from .sensor import Sensor
 import os
 import subprocess
 import re
+import psutil
 
 class Raspi(Sensor):
 
@@ -11,7 +12,7 @@ class Raspi(Sensor):
 
   def command_sh(self, command):
     proc = subprocess.check_output(command).decode('utf8').split('=')[1].rstrip('\n')
-    return re.findall(r"[-+]?\d*\.\d+|\d+", proc)[0]
+    return float(re.findall(r"[-+]?\d*\.\d+|\d+", proc)[0])
 
   def get(self):
     temp = self.command_sh(['vcgencmd', 'measure_temp'])
@@ -19,6 +20,8 @@ class Raspi(Sensor):
     volt = self.command_sh(['vcgencmd', 'measure_volts'])
     arm = self.command_sh(['vcgencmd', 'get_mem arm'])
     gpu = self.command_sh(['vcgencmd', 'get_mem gpu'])
+    ram = psutil.virtual_memory().percent
+    cpu = psutil.cpu_percent(interval=1)
 
-    return [temp, clock, volt, arm, gpu]
+    return [temp, clock, volt, arm, gpu, ram, cpu]
 

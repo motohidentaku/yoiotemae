@@ -37,9 +37,14 @@ class Docomo(Sensor):
     login_button = driver.find_element_by_name("subForm")
     login_button.click()
 
+    time.sleep(7)
+    #print(driver.page_source)
+
     # PW入力
     password = driver.find_element_by_id("Di_Pass")
     password.send_keys(docomo_pw)
+
+    print(driver.page_source)
 
     # 「ログイン」クリック
     login_button = driver.find_element_by_name("subForm")
